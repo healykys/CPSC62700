@@ -42,7 +42,6 @@ function portcheck
 
 function interactiveMode
 {
-	echo "In Batch Mode"
 	while [[ 1 == 1 ]]
 	do
 		echo "Enter hostname:"
@@ -63,7 +62,6 @@ function interactiveMode
 # populate our variables from the arguments.
 # Check if optional -t exists
 totalArgs=$#
-echo "args = $totalArgs"
 if [[ $totalArgs == 5 ]] && [[ "$1" == "-t" ]]
 then
 	timeoutVal=$2
