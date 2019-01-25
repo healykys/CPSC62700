@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#Kyle Healy
+#CPSC 62700 - Penetration Testing
+#1/25/2019
+
 # Basic bash port scanner
 
 # display a usage message if incorrect number of arguments
