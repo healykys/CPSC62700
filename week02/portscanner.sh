@@ -40,33 +40,58 @@ function portcheck
 }
 
 
+function interactiveMode
+{
+	echo "In Batch Mode"
+	while [[ 1 == 1 ]]
+	do
+		echo "Enter hostname:"
+		read host
+		if [ -z "$host" ]
+		then #empty string host. Exit
+			exit
+		fi
+		echo "Enter starting port:"
+		read startport
+		echo "Enter stopping port:"
+		read stopport
+		pingcheck
+		portcheck
+	done
+}
+
 # populate our variables from the arguments.
 # Check if optional -t exists
-if [[ "$#" == 5 ]] && [[ "$1" == "-t" ]]
+totalArgs=$#
+echo "args = $totalArgs"
+if [[ $totalArgs == 5 ]] && [[ "$1" == "-t" ]]
 then
 	timeoutVal=$2
 	host=$3
 	startport=$4
 	stopport=$5
-elif [[ "$#" == 3 ]]
+	pingcheck
+	portcheck
+elif [[ $totalArgs == 3 ]]
 then
 	timeoutVal=2
 	host=$1
 	startport=$2
 	stopport=$3
-elif [[ "$#" == 2 ]] && [[ "$1" == "-t" ]]
+	pingcheck
+	portcheck
+elif [[ $totalArgs == 2 ]] && [[ "$1" == "-t" ]]
 then
 	timeoutVal=$2
-	#Batch Mode
-elif [[ "$#" == 0 ]]
+	#Interactive/Batch Mode
+	interactiveMode
+elif [[ $totalArgs == 0 ]]
 then
 	timeoutVal=2
-	#Batch Mode
+	#Interactive/Batch Mode
+	interactiveMode
 else
 	usage
 fi
 
 
-# run our functions
-pingcheck
-portcheck
