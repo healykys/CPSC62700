@@ -6,9 +6,10 @@ NAME
 	portscanner.sh - scans specified ports on a given host name
 
 USAGE
+	./portscanner.sh [-t timeout] [hostname startport stopport]
 
 DESCRIPTION
-	portscanner.sh is a bash program that reads in a hostname and a starting and stopping port. The program attempts to access the hostname, verifying it is up and operational. If the hostname is up, it scans the ports in between the starting and stopping port. 
+	portscanner.sh is a bash program that reads in a hostname and a starting and stopping port. The program attempts to access the hostname, verifying it is up and operational. If the hostname is up, it scans the ports in between the starting and stopping port. If the starting port is greater than the stopping port, the scan loops around. Ex. all ports between [startport 255] and [0 stopport] will be scanned.
 
 OPTIONS
 	-t 	Change the duration of the wait time before cancelling the ping request.
@@ -21,6 +22,8 @@ INPUT FILE FORMAT
 	
 
 KNOWN BUGS AND LIMITATIONS
-	
+	If a non integer is passed in as the stopport, an error is thrown, but the scanner will continue on to scan from startport through port 255 and port 0.
+	If a non integer is passed as the start port, an error is thrown, but the scanner will continue to scan from 0 to 255. 
 
 ADDITIONAL NOTES
+	Looping aroung the ports was an addition to the program. The initial program would have broken if start was higher than the stop (Ex. Start 255 and stop 2). 

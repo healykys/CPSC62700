@@ -31,6 +31,7 @@ function pingcheck
 # test a port to see if it is open
 function portcheck
 {
+
 	for ((counter=$startport; counter <= $stopport; counter++))
 	do
 		if timeout $timeoutVal bash -c "echo > /dev/tcp/$host/$counter"
@@ -39,10 +40,25 @@ function portcheck
 		else
 			echo "Port $counter closed"
 		fi
-#		(echo >/dev/tcp/$host/$counter) > /dev/null 2>%1 && echo "$counter open"
 	done
 }
 
+# function portOrder
+# Checks that startport is less than stopport. If it's not, wrap search
+function portOrder
+{
+	if [ "$startport" -le "$stopport" ]
+	then
+		portcheck
+	else
+		tmpstopport=$stopport
+		stopport=255
+		portcheck
+		startport=0
+		stopport=$(($tmpstopport))
+		portcheck
+	fi	
+}
 
 function interactiveMode
 {
@@ -59,7 +75,8 @@ function interactiveMode
 		echo "Enter stopping port:"
 		read stopport
 		pingcheck
-		portcheck
+		#portcheck
+		portOrder
 	done
 }
 
@@ -73,7 +90,7 @@ then
 	startport=$4
 	stopport=$5
 	pingcheck
-	portcheck
+	portOrder
 elif [[ $totalArgs == 3 ]]
 then
 	timeoutVal=2
@@ -81,7 +98,7 @@ then
 	startport=$2
 	stopport=$3
 	pingcheck
-	portcheck
+	portOrder
 elif [[ $totalArgs == 2 ]] && [[ "$1" == "-t" ]]
 then
 	timeoutVal=$2
