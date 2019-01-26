@@ -2,11 +2,11 @@
 
 #Kyle Healy
 #CPSC 62700 - Penetration Testing
-#1/25/2019
+#1/26/2019
 
-# Basic bash port scanner
+# Basic bash port scanner program
 
-# display a usage message if incorrect number of arguments
+# Display a usage message and exit if incorrect number of arguments
 function usage
 {
 	echo "Usage: ./portscanner.sh [-t timeout] [<host> <startport> <stopport>]"
@@ -44,7 +44,7 @@ function portcheck
 }
 
 # function portOrder
-# Checks that startport is less than stopport. If it's not, wrap search
+# Checks that startport is less than stopport. If it's not, wrap search around total number of ports (wraps 255 to 0)
 function portOrder
 {
 	if [ "$startport" -le "$stopport" ]
@@ -75,7 +75,6 @@ function interactiveMode
 		echo "Enter stopping port:"
 		read stopport
 		pingcheck
-		#portcheck
 		portOrder
 	done
 }

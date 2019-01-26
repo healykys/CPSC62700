@@ -1,6 +1,6 @@
 CS 62700 Project 1: Bash Port Scanner
 Kyle Healy
-1/24/2019
+1/26/2019
 
 NAME
 	portscanner.sh - scans specified ports on a given host name
@@ -16,7 +16,7 @@ OPTIONS
 
 INPUT FILE FORMAT
 	Input files should contain multiples of 3 lines. The format should follow the format below.
-	Line 1: Hostname - Either a string with the name (www.lewisu.com) or a 32 bit number (192:168:1:1)
+	Line 1: Hostname - Either a string with the name (www.lewisu.com) or a 32 bit number (192:168:1:127)
 	Line 2: Starting Port - The number to start the port scanning at.
 	Line 3: Stopping Port - The number to stop the port scanning at.
 	
