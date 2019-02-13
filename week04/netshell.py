@@ -48,7 +48,6 @@ while True:
                     except:
                         out = "Command failed\n"
                         sock.send(out)
-                        #allsocks.remove(sock)
                     else:
                         if err:
                             sock.send(err)
